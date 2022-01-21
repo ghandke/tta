@@ -23,7 +23,7 @@
       data.forEach((item) => {
         const navLink = document.createElement('a');
         navLink.textContent = item.Title;
-        navLink.href = item.URL;
+        navLink.href = new URL(item.URL).pathname;
         navWrapper.append(navLink);
       });
       document.body.insertBefore(navWrapper, document.querySelector('main'));

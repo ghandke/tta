@@ -48,12 +48,27 @@ function createTag(name, attrs) {
       $headerImg.parentNode.remove();
     }
   }
-  
+
+  function decorateAnchors(element) {
+    element.querySelectorAll('a').forEach((anchor) => {
+      const { href } = anchor;
+      const url = new URL(href);
+      if (!url.origin.includes('hlx') && !url.hostname === 'localhost') {
+        // external link
+        anchor.target = '_blank';
+        return;
+      }
+      anchor.setAttribute('href', url.pathname);
+    });
+  }
+
   function decoratePage() {
     wrap('main table', 'table-wrapper');
     wrap('main>div', 'section-wrapper');
     createHeroSection();
-    document.querySelector('main').classList.add('ready');
+    const main = document.querySelector('main');
+    main.classList.add('ready');
+    decorateAnchors(main);
   }
   
   window.addEventListener('DOMContentLoaded', () => {
